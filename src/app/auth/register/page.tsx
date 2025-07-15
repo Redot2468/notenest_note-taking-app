@@ -1,10 +1,14 @@
+import RegisterForm from "@/app/_components/auth/RegisterForm";
 import { Metadata } from "next";
-import React from "react";
 
 export const metadata: Metadata = {
   title: "Register",
 };
 
 export default function Page() {
-  return <div>Register</div>;
+  return (
+    <div>
+      <RegisterForm />
+    </div>
+  );
 }

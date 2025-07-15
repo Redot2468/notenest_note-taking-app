@@ -1,1 +1,175 @@
 @import "tailwindcss";
+
+@theme {
+  --color-neutral-950: #0e121b;
+  --color-neutral-900: #191b25;
+  --color-neutral-800: #232530;
+  --color-neutral-700: #2b303b;
+  --color-neutral-600: #525866;
+  --color-neutral-500: #717784;
+  --color-neutral-400: #99a0ae;
+  --color-neutral-300: #cacfd8;
+  --color-neutral-200: #e0e4ea;
+  --color-neutral-100: #f3f5f8;
+  --color-neutral-50: #f3f5f8;
+  --color-white: #ffffff;
+
+  --color-blue-700: #2547d0;
+  --color-blue-500: #335cff;
+  --color-blue-50: #ebf1ff;
+
+  --color-green-500: #21c16b;
+  --color-green-100: #d1fbe9;
+
+  --color-red-500: #fb3748;
+  --color-red-100: #ffd5d8;
+
+  --drop-shadow-neutral: 0 0 0 4 #99a0ae;
+}
+
+@layer base {
+}
+
+@layer components {
+  /* fonts  */
+  .text-preset-1 {
+    @apply text-2xl leading-[120%] font-bold tracking-[-0.5px];
+  }
+
+  .text-preset-2 {
+    @apply text-xl leading-[120%] font-bold tracking-[-0.5px];
+  }
+
+  .text-preset-3 {
+    @apply text-base leading-[120%] font-semibold tracking-[-0.3px];
+  }
+
+  .text-preset-4 {
+    @apply text-sm leading-[120%] font-medium tracking-[-0.2px];
+  }
+
+  .text-preset-5 {
+    @apply text-sm leading-[120%] font-normal tracking-[-0.2px];
+  }
+
+  .text-preset-6 {
+    @apply text-xs leading-[120%] font-normal tracking-[-0.2px];
+  }
+
+  /* border radius */
+  .radius-0 {
+    @apply rounded-none;
+  }
+
+  .radius-4 {
+    @apply rounded-[4px];
+  }
+
+  .radius-6 {
+    @apply rounded-[6px];
+  }
+
+  .radius-8 {
+    @apply rounded-[8px];
+  }
+
+  .radius-10 {
+    @apply rounded-[10px];
+  }
+
+  .radius-12 {
+    @apply rounded-[12px];
+  }
+
+  .radius-16 {
+    @apply rounded-[16px];
+  }
+
+  .radius-20 {
+    @apply rounded-[20px];
+  }
+
+  .radius-24 {
+    @apply rounded-[24px];
+  }
+  .radius-full {
+    @apply rounded-[999px];
+  }
+
+  .small-shadow {
+    box-shadow: 0px 4px 6px 0 rgb(240, 240, 240, 0.6);
+  }
+
+  .large-shadow {
+    box-shadow: 0px 8px 12px 0 rgb(240, 240, 240, 0.6);
+  }
+
+  .content-container {
+    @apply flex;
+  }
+
+  .content-sidebar {
+    @apply w-[272px];
+  }
+
+  .content-grid {
+    @apply grid grid-cols-8 gap-4 px-4 md:gap-8 md:px-8 lg:px-0;
+  }
+
+  /* forms */
+
+  .form-header-texts {
+    @apply space-y-2 text-center;
+  }
+
+  .form-header-texts h1 {
+    @apply text-neutral-950 capitalize;
+  }
+
+  .form-header-texts p {
+    @apply text-neutral-600;
+  }
+
+  /* buttons */
+  button {
+    @apply cursor-pointer;
+  }
+  .btn {
+    @apply flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm leading-[120%] font-medium tracking-[-0.2px] transition-all;
+  }
+
+  .btn:focus {
+    @apply ring-2 ring-neutral-400 ring-offset-2;
+  }
+
+  .btn:disabled {
+    @apply bg-neutral-50 text-neutral-300;
+  }
+
+  .btn-primary {
+    @apply bg-blue-500 text-white;
+  }
+
+  .btn-primary:hover {
+    @apply bg-blue-700;
+  }
+
+  .btn-secondary {
+    @apply border border-transparent bg-neutral-100 text-neutral-600 transition-all;
+  }
+
+  .btn-secondary:hover {
+    @apply border border-neutral-300 bg-white text-neutral-950;
+  }
+
+  .btn-border-btn {
+    @apply border border-neutral-300 bg-[#f0f0f0];
+  }
+
+  .btn-border-btn:hover {
+    @apply bg-neutral-100 text-neutral-600;
+  }
+}
+
+@layer utilities {
+}
