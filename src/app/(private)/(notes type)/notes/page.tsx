@@ -1,13 +1,15 @@
+import { getAuthSession } from "@/app/_utils/getSession";
 import { Metadata } from "next";
-import React from "react";
 
 export const metadata: Metadata = {
   title: "All Notes",
 };
 
-export default function Page() {
+export default async function Page() {
+  const session = await getAuthSession();
   return (
     <div>
+      {JSON.stringify(session)}
       {/* mobile - desktop (use the list in the layout) */}
       <div>list of notes (mobile)</div>
 
