@@ -12,6 +12,8 @@ const { auth } = NextAuth(authConfig);
 export default auth((req) => {
   const isLoggedIn = !!req.auth;
 
+  console.log(isLoggedIn, req.auth, "yes");
+
   const currentPath = req?.nextUrl?.pathname;
 
   const isPublicRoute = publicRoutes.includes(currentPath);
@@ -21,6 +23,12 @@ export default auth((req) => {
   if (isPublicRoute) return;
   if (isApiAuthRoute) return;
 
+  console.log(
+    isAuthRoute,
+    "auth",
+    currentPath,
+    authRoutes.includes(currentPath),
+  );
   if (isAuthRoute) {
     if (isLoggedIn) {
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, req?.nextUrl));

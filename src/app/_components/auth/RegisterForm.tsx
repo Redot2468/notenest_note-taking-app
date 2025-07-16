@@ -29,6 +29,7 @@ export default function RegisterForm() {
     handleSubmit,
     register,
     formState: { errors },
+    reset,
   } = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -43,9 +44,10 @@ export default function RegisterForm() {
   function onSubmitForm(values: RegisterSchemaType) {
     startTransition(async () => {
       const response = await registerAction(values);
-      // if(response?.success){
-      // toast.success(response.success)
-      // }
+      if (response?.success) {
+        toast.success(response.success);
+        reset();
+      }
 
       if (response?.error) {
         toast.error(response.error);
@@ -193,7 +195,7 @@ export default function RegisterForm() {
             aria-disabled={isRegistering}
             className="btn btn-primary w-full"
           >
-            Sign up
+            {isRegistering ? "Signing up..." : "Sign up"}
           </button>
         </div>
       </form>
@@ -222,7 +224,7 @@ export default function RegisterForm() {
       <div className="flex justify-center">
         <p className="text-preset-5 text-neutral-600">
           Already have an account?{" "}
-          <Link href="/auth/register" className="text-neutral-950 capitalize">
+          <Link href="/auth/login" className="text-neutral-950 capitalize">
             {" "}
             Login
           </Link>

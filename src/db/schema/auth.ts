@@ -43,3 +43,13 @@ export const accounts = pgTable(
     },
   ],
 );
+
+export const emailVerificationToken = pgTable("emailVerifactionTable", {
+  id: text("id")
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  email: text("email").notNull().unique(),
+  expires: timestamp("expires").notNull(),
+  token: text("token").notNull(),
+});

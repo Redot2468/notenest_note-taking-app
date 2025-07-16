@@ -20,6 +20,7 @@ export default function RootLayout({ children }: ChildrenType) {
         {children}
         <Toaster
           toastOptions={{
+            duration: 10000,
             className: "font-medium text-[15px] py-0",
             style: {
               paddingTop: "5px",

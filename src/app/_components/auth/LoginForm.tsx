@@ -4,9 +4,10 @@ import AuthFormInput from "@/app/_components/auth/AuthFormInput";
 import PasswordVisibilityBtn from "@/app/_components/reusables/PasswordVisibility";
 import { loginAction } from "@/app/_lib/actions/auth/login";
 import googleIcon from "@/public/icons/icon-google.svg";
+import { DEFAULT_LOGIN_REDIRECT } from "@/route";
 import Image from "next/image";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -19,6 +20,7 @@ export default function LoginForm() {
     isConfirmPasswordInputFocus: false,
   });
   const searchParams = useSearchParams();
+  const router = useRouter();
   const callbackUrl = searchParams.get("callbackUrl") ?? "";
 
   const { formErrors, inputs } = state ?? {};
@@ -27,11 +29,12 @@ export default function LoginForm() {
     if (state) {
       if (state?.success) {
         toast.success(state?.success);
+        router.push(callbackUrl || DEFAULT_LOGIN_REDIRECT);
       } else if (state?.error) {
         toast.error(state?.error);
       }
     }
-  }, [state]);
+  }, [state, callbackUrl, router]);
 
   return (
     <div className="space-y-4">
@@ -45,7 +48,6 @@ export default function LoginForm() {
         autoComplete="on"
         className="flex flex-col gap-4 pt-6"
       >
-        <input type="hidden" name="callbackUrl" value={callbackUrl} />
         <AuthFormInput
           error={formErrors?.email?.errors?.at(0)}
           htmlFor="email"
@@ -121,7 +123,13 @@ export default function LoginForm() {
         </AuthFormInput>
 
         <div>
-          <button className="btn btn-primary w-full">Login</button>
+          <button
+            className="btn btn-primary w-full"
+            disabled={isLoggingIn}
+            aria-disabled={isLoggingIn}
+          >
+            {isLoggingIn ? "Signing in..." : "Login"}
+          </button>
         </div>
       </form>
 
