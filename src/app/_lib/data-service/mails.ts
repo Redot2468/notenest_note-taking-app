@@ -12,7 +12,7 @@ export const sendPasswordResetMail = cache(
     await resend.emails.send({
       from: "onboarding@resend.dev",
       //   change this later to user's email
-      to: "lawalridwan025@gmail.com",
+      to: email,
       subject: "Reset your password",
       react: ResetPassword({ resetUrl }),
     });
@@ -26,7 +26,7 @@ export const sendEmailVerifcationMail = cache(
     await resend.emails.send({
       from: "onboarding@resend.dev",
       //   change this later to user's email
-      to: "lawalridwan025@gmail.com",
+      to: email,
       subject: "Verify email",
       react: EmailVerifyTemp({ confirmationLink }),
     });
