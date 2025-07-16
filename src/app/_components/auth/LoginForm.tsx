@@ -122,6 +122,13 @@ export default function LoginForm() {
           />
         </AuthFormInput>
 
+        <Link
+          href={"/auth/forgotpassword"}
+          className="text-right text-xs leading-[140%] text-neutral-600 underline"
+        >
+          Forgot Password?
+        </Link>
+
         <div>
           <button
             className="btn btn-primary w-full"

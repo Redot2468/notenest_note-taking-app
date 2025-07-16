@@ -53,3 +53,13 @@ export const emailVerificationToken = pgTable("emailVerifactionTable", {
   expires: timestamp("expires").notNull(),
   token: text("token").notNull(),
 });
+
+export const resetPasswordToken = pgTable("resetPasswordToken", {
+  id: text("id")
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  email: text("email").notNull().unique(),
+  expires: timestamp("expires").notNull(),
+  token: text("token").notNull(),
+});

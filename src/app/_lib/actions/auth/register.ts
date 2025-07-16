@@ -1,11 +1,11 @@
 "use server";
 
-import { getUserByEmail } from "@/app/_lib/data-service/auth";
-import { sendEmailVerifcationToken } from "@/app/_lib/data-service/mails";
 import {
-  generateEmailVerificationToken,
   getEmailVerificationTokenByToken,
-} from "@/app/_lib/data-service/tokens";
+  getUserByEmail,
+} from "@/app/_lib/data-service/auth";
+import { sendEmailVerifcationMail } from "@/app/_lib/data-service/mails";
+import { generateEmailVerificationToken } from "@/app/_lib/data-service/tokens";
 import { RegisterSchema } from "@/app/_lib/zod/authschema";
 import { db } from "@/db";
 import { emailVerificationToken, users } from "@/db/schema/auth";
@@ -73,7 +73,7 @@ export async function registerAction(formData: z.infer<typeof RegisterSchema>) {
     }
 
     // send verification token
-    await sendEmailVerifcationToken(verificationToken?.token, email);
+    await sendEmailVerifcationMail(verificationToken?.token, email);
 
     // success message
     return {

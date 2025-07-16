@@ -1,7 +1,7 @@
 "use server";
 
 import { getUserByEmail } from "@/app/_lib/data-service/auth";
-import { sendEmailVerifcationToken } from "@/app/_lib/data-service/mails";
+import { sendEmailVerifcationMail } from "@/app/_lib/data-service/mails";
 import { generateEmailVerificationToken } from "@/app/_lib/data-service/tokens";
 import { LoginSchema } from "@/app/_lib/zod/authschema";
 import { signIn } from "@/auth";
@@ -34,7 +34,7 @@ export async function loginAction(prevState: unknown, formData: FormData) {
       if (!verificationToken)
         return { error: "Verification token was not created." };
 
-      await sendEmailVerifcationToken(verificationToken?.token, email);
+      await sendEmailVerifcationMail(verificationToken?.token, email);
 
       return {
         success: "Check your mail inbox to verify your email",
