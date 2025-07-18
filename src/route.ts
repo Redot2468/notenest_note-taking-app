@@ -10,7 +10,7 @@ export const publicRoutes = ["/"];
  * @type {string}
  */
 
-export const apiAuthPrefix = "/auth";
+export const apiAuthPrefix = "/api";
 
 /**
  * This is the auth routes, should be accessible by everyone except logged in users.

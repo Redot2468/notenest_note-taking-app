@@ -3,9 +3,14 @@ import { LoginSchema } from "@/app/_lib/zod/authschema";
 import bcrypt from "bcryptjs";
 import { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
 
 export const authConfig = {
   providers: [
+    Google({
+      clientId: process.env.AUTH_GOOGLE_ID!,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET!,
+    }),
     Credentials({
       async authorize(credentials) {
         const validatedCredentials = LoginSchema.safeParse(credentials);
