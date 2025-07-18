@@ -3,6 +3,8 @@
 import AuthFormInput from "@/app/_components/auth/AuthFormInput";
 import PasswordVisibilityBtn from "@/app/_components/reusables/PasswordVisibility";
 import { loginAction } from "@/app/_lib/actions/auth/login";
+
+import { useOAuthLogin } from "@/app/_hooks/useOauthLogin";
 import googleIcon from "@/public/icons/icon-google.svg";
 import { DEFAULT_LOGIN_REDIRECT } from "@/route";
 import Image from "next/image";
@@ -17,13 +19,13 @@ export default function LoginForm() {
   const [isInputFocusState, SetInputFocusState] = useState({
     isEmailInputFocus: false,
     isPasswordInputFocus: false,
-    isConfirmPasswordInputFocus: false,
   });
   const searchParams = useSearchParams();
   const router = useRouter();
   const callbackUrl = searchParams.get("callbackUrl") ?? "";
 
   const { formErrors, inputs } = state ?? {};
+  const { isOAuthLoggingIn, onOAuthLogin } = useOAuthLogin();
 
   useEffect(() => {
     if (state) {
@@ -145,8 +147,9 @@ export default function LoginForm() {
         <p className="text-preset-5 text-neutral-600">Or log in with:</p>
         <button
           className="btn btn-secondary w-full"
-          disabled={isLoggingIn}
-          aria-disabled={isLoggingIn}
+          disabled={isLoggingIn || isOAuthLoggingIn}
+          aria-disabled={isLoggingIn || isOAuthLoggingIn}
+          onClick={onOAuthLogin}
         >
           <Image
             src={googleIcon}
@@ -156,7 +159,7 @@ export default function LoginForm() {
           />
 
           <span className="leading-[100%] font-medium tracking-[0.5px] text-neutral-950">
-            Google
+            {isOAuthLoggingIn ? "Signing in with google..." : "Google"}
           </span>
         </button>
       </div>

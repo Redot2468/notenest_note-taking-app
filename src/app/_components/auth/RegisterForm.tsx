@@ -2,6 +2,7 @@
 
 import AuthFormInput from "@/app/_components/auth/AuthFormInput";
 import PasswordVisibilityBtn from "@/app/_components/reusables/PasswordVisibility";
+import { useOAuthLogin } from "@/app/_hooks/useOauthLogin";
 import { registerAction } from "@/app/_lib/actions/auth/register";
 import { RegisterSchema } from "@/app/_lib/zod/authschema";
 import googleIcon from "@/public/icons/icon-google.svg";
@@ -18,6 +19,7 @@ type RegisterSchemaType = z.infer<typeof RegisterSchema>;
 export default function RegisterForm() {
   const [isRegistering, startTransition] = useTransition();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const { isOAuthLoggingIn, onOAuthLogin } = useOAuthLogin();
 
   const [isInputFocusState, SetInputFocusState] = useState({
     isEmailInputFocus: false,
@@ -205,8 +207,9 @@ export default function RegisterForm() {
         <p className="text-preset-5 text-neutral-600">Or log in with:</p>
         <button
           className="btn btn-secondary w-full"
-          disabled={isRegistering}
-          aria-disabled={isRegistering}
+          disabled={isRegistering || isOAuthLoggingIn}
+          aria-disabled={isRegistering || isOAuthLoggingIn}
+          onClick={onOAuthLogin}
         >
           <Image
             src={googleIcon}
@@ -216,7 +219,7 @@ export default function RegisterForm() {
           />
 
           <span className="leading-[100%] font-medium tracking-[0.5px] text-neutral-950">
-            Google
+            {isOAuthLoggingIn ? "Signing in with google..." : "  Google"}
           </span>
         </button>
       </div>
