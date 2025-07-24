@@ -1,9 +1,9 @@
-import { db } from "@/db";
+import { db } from "@/src/db";
 import {
   emailVerificationToken,
   resetPasswordToken,
   users,
-} from "@/db/schema/auth";
+} from "@/src/db/schema/auth";
 import { eq } from "drizzle-orm";
 import { cache } from "react";
 

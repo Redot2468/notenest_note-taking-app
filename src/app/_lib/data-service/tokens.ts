@@ -2,8 +2,11 @@ import {
   getEmailVerificationTokenByEmail,
   getPasswordResetTokenByemail,
 } from "@/app/_lib/data-service/auth";
-import { db } from "@/db";
-import { emailVerificationToken, resetPasswordToken } from "@/db/schema/auth";
+import { db } from "@/src/db";
+import {
+  emailVerificationToken,
+  resetPasswordToken,
+} from "@/src/db/schema/auth";
 import { eq } from "drizzle-orm";
 import { cache } from "react";
 import { v4 as uuidv4 } from "uuid";
