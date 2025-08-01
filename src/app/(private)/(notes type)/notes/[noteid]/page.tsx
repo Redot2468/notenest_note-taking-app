@@ -1,12 +1,17 @@
-import React from "react";
+import Note from "@components/all-notes/new-note/Note";
+import { Metadata } from "next";
 
-export function generateMetadata() {}
+export const metadata: Metadata = {
+  title: "New Note",
+};
 
-export default function Page() {
-  return (
-    <div>
-      {/* note content - mobile and desktop */}
-      <div>note-1, (note contente)</div>
-    </div>
-  );
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ noteId: string }>;
+}) {
+  const noteParam = await params;
+  console.log(noteParam, "noteparramm");
+
+  return <Note noteId={noteParam?.noteId} />;
 }

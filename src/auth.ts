@@ -1,7 +1,7 @@
 import { getUserById } from "@/app/_lib/data-service/auth";
-import { authConfig } from "@/authConfig";
-import { db } from "@/db";
-import { users } from "@/db/schema/auth";
+import { authConfig } from "@/src/authConfig";
+import { db } from "@/src/db";
+import { users } from "@/src/db/schema/auth";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { eq } from "drizzle-orm";
 import NextAuth from "next-auth";

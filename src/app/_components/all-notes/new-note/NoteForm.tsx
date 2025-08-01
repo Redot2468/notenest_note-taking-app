@@ -1,40 +1,30 @@
 "use client";
 
 import Tiptap from "@/src/app/_components/all-notes/new-note/Tiptap";
+import { NoteFormStateType } from "@/src/app/_utils/types";
 import { Clock, Tag } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
+import { DebouncedState } from "use-debounce";
 
-type NoteFormStateType = {
-  noteContent: string;
-  title: string;
-  tags: string;
-};
+interface NewNoteFormProps {
+  disable: boolean;
 
-export default function NewNoteForm() {
-  const noteDetailsFromLocalStorage = localStorage.getItem("noteDetails");
-  console.log(
-    noteDetailsFromLocalStorage ? JSON.parse(noteDetailsFromLocalStorage) : "",
-    "ridwan",
-  );
+  noteFormData: NoteFormStateType;
+  setNoteFormData: Dispatch<SetStateAction<NoteFormStateType>>;
+  noteSaveDebounceFunction: DebouncedState<() => Promise<void>>;
+}
 
-  const [newNoteFormState, setNewNoteFormState] = useState<NoteFormStateType>(
-    () =>
-      noteDetailsFromLocalStorage
-        ? JSON.parse(noteDetailsFromLocalStorage)
-        : {
-            noteContent: "",
-            title: "",
-            tags: "",
-          },
-  );
+export default function NoteForm({
+  disable,
 
-  const onUpdateContent = (content: string) =>
-    setNewNoteFormState((cur) => ({ ...cur, noteContent: content }));
-
-  useEffect(() => {
-    // only store in local storage if it's a new note. Stored notes will come from db.
-    localStorage.setItem("noteDetails", JSON.stringify(newNoteFormState));
-  }, [newNoteFormState]);
+  noteFormData,
+  setNoteFormData,
+  noteSaveDebounceFunction,
+}: NewNoteFormProps) {
+  const onUpdateContent = (content: string) => {
+    setNoteFormData((cur) => ({ ...cur, noteContent: content }));
+    noteSaveDebounceFunction();
+  };
 
   return (
     <div className="mt-3 space-y-3">
@@ -43,14 +33,17 @@ export default function NewNoteForm() {
           type="text"
           name="title"
           id="title"
-          defaultValue={newNoteFormState?.title}
+          defaultValue={noteFormData?.title}
+          disabled={disable}
+          aria-disabled={disable}
           autoComplete="title"
           aria-label="note title"
           placeholder="Enter a title..."
           className="text-preset-2 w-full text-neutral-950 placeholder:text-neutral-950 focus:outline-none md:text-2xl"
-          onChange={(e) =>
-            setNewNoteFormState((cur) => ({ ...cur, title: e.target.value }))
-          }
+          onChange={(e) => {
+            setNoteFormData((cur) => ({ ...cur, title: e.target.value }));
+            noteSaveDebounceFunction();
+          }}
         />
       </div>
 
@@ -67,14 +60,18 @@ export default function NewNoteForm() {
             type="text"
             name="tags"
             id="tags"
-            defaultValue={newNoteFormState?.tags}
+            defaultValue={noteFormData?.tags}
+            disabled={disable}
+            aria-disabled={disable}
             autoComplete="tags"
             aria-label="tags"
             placeholder="Add tags separated by commas (e.g. Work, Planning)"
             className="text-preset-6 w-full text-neutral-950 focus:outline-none"
-            onChange={(e) =>
-              setNewNoteFormState((cur) => ({ ...cur, tags: e.target.value }))
-            }
+            onChange={(e) => {
+              setNoteFormData((cur) => ({ ...cur, tags: e.target.value }));
+
+              noteSaveDebounceFunction();
+            }}
           />
         </div>
 
@@ -99,11 +96,24 @@ export default function NewNoteForm() {
       <div className="mt-3 h-[1px] bg-neutral-200" />
 
       <div className="">
+        <input type="hidden" name="content" value={noteFormData?.noteContent} />
         <Tiptap
-          content={newNoteFormState?.noteContent}
+          content={noteFormData?.noteContent}
+          disabled={disable}
           onUpdateContent={onUpdateContent}
         />
       </div>
     </div>
   );
 }
+
+/**
+ 
+ Desktop
+ - use optimistic for note deletion or note archived
+ - desktop: use optimistic for adding data,
+  * Add the Delete functionality
+     
+      1a on Desktop, switch to the latest note
+   
+  */

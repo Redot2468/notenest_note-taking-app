@@ -185,6 +185,10 @@
   .btn-border-btn:hover {
     @apply bg-neutral-100 text-neutral-600;
   }
+
+  input {
+    @apply disabled:cursor-not-allowed disabled:text-gray-400;
+  }
 }
 
 @layer utilities {

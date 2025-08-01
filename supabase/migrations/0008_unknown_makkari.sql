@@ -1,0 +1,1 @@
+ALTER TABLE "notes" ADD COLUMN "published_at" timestamp NOT NULL;

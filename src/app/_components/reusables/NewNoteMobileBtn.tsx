@@ -1,6 +1,7 @@
 "use client";
 
 import { Plus } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export default function NewNoteMobileBtn() {
@@ -11,10 +12,12 @@ export default function NewNoteMobileBtn() {
     pathname === "/notes/new";
 
   return (
-    <button
-      className={`flex size-12 items-center justify-center rounded-full bg-blue-500 ${hideButton ? "hidden" : "block"} large-shadow absolute right-6 bottom-20 lg:hidden`}
-    >
-      <Plus className="size-[24px] text-white" />
-    </button>
+    <Link href="/notes/new">
+      <button
+        className={`flex size-12 items-center justify-center rounded-full bg-blue-500 ${hideButton ? "hidden" : "block"} large-shadow absolute right-6 bottom-20 lg:hidden`}
+      >
+        <Plus className="size-[24px] text-white" />
+      </button>
+    </Link>
   );
 }

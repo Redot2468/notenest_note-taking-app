@@ -1,5 +1,6 @@
 import NoteLists from "@/app/_components/all-notes/NoteLists";
 import { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "All Notes",
@@ -10,7 +11,9 @@ export default async function Page() {
     <div className="flex-grow overflow-hidden border-4 border-amber-600">
       {/* mobile - desktop (use the list in the layout) */}
       <div className="lg:hidden">
-        <NoteLists />
+        <Suspense fallback={<div>Loading...</div>}>
+          <NoteLists />
+        </Suspense>
       </div>
       {/* desktop */}
       <div className="hidden lg:block">

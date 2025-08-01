@@ -6,7 +6,7 @@ import { loginAction } from "@/app/_lib/actions/auth/login";
 
 import { useOAuthLogin } from "@/app/_hooks/useOauthLogin";
 import googleIcon from "@/public/icons/icon-google.svg";
-import { DEFAULT_LOGIN_REDIRECT } from "@/route";
+import { DEFAULT_LOGIN_REDIRECT } from "@/src/route";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";

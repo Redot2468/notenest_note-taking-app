@@ -16,15 +16,22 @@ import { all, createLowlight } from "lowlight";
 
 import "@/components/tiptap-node/image-node/image-node.scss";
 import { ListKeymap } from "@tiptap/extension-list";
+import { useEffect } from "react";
 
 interface TiptapProps {
   content: string;
   onUpdateContent: (content: string) => void;
+  disabled: boolean;
 }
 
 const lowlight = createLowlight(all);
 
-export default function Tiptap({ content, onUpdateContent }: TiptapProps) {
+export default function Tiptap({
+  content,
+  onUpdateContent,
+  disabled,
+}: TiptapProps) {
+  console.log(content, "contentss");
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -79,6 +86,12 @@ export default function Tiptap({ content, onUpdateContent }: TiptapProps) {
     },
   });
 
+  useEffect(() => {
+    if (content === "" && editor) {
+      editor.commands.setContent("");
+    }
+  }, [content, editor]);
+
   if (!editor) {
     return;
   }
@@ -86,7 +99,11 @@ export default function Tiptap({ content, onUpdateContent }: TiptapProps) {
   return (
     <div className="relative flex w-full flex-grow flex-col space-y-4">
       <EditorToolbar editor={editor} />
-      <EditorContent editor={editor} />
+      <EditorContent
+        disabled={disabled}
+        aria-disabled={disabled}
+        editor={editor}
+      />
     </div>
   );
 }

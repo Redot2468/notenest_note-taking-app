@@ -1,5 +1,6 @@
 import { inter } from "@/app/_styles/font";
 import { ChildrenType } from "@/app/_utils/types";
+import StoreProvider from "@/src/app/_lib/redux/StoreProvider";
 import "@styles/globals.css";
 import { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
@@ -17,7 +18,7 @@ export default function RootLayout({ children }: ChildrenType) {
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
-        {children}
+        <StoreProvider>{children}</StoreProvider>
         <Toaster
           toastOptions={{
             duration: 10000,
