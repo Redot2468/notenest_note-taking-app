@@ -1,44 +1,28 @@
 "use client";
 
+import CancelNoteModal from "@/src/app/_components/all-notes/new-note/CancelNoteModal";
+import DiscardNoteModal from "@/src/app/_components/all-notes/new-note/DiscardNoteModal";
 import NoteForm from "@/src/app/_components/all-notes/new-note/NoteForm";
 import NoteHeader from "@/src/app/_components/all-notes/new-note/NoteHeader";
-import Modal from "@/src/app/_components/reusables/Modal";
-import {
-  addNewNoteAction,
-  addNewNoteActionForButtons,
-} from "@/src/app/_lib/actions/notes/note-add";
-import { deleteNoteAction } from "@/src/app/_lib/actions/notes/note-delete-archive";
-import {
-  updateNoteAction,
-  updateNoteActionOnButton,
-} from "@/src/app/_lib/actions/notes/note-update";
-import { useAppDispatch, useAppSelector } from "@/src/app/_lib/redux/hooks";
-import {
-  getNotes,
-  onToggleCancelModal,
-  onToggleDiscardModal,
-} from "@/src/app/_lib/redux/notes/notes-slice";
-import { DISCARD_MODAL_CONTENT } from "@/src/app/_utils/constants";
-import { hasContent } from "@/src/app/_utils/htmlContent";
-import { NoteFormStateType } from "@/src/app/_utils/types";
+import { useNoteForm } from "@/src/app/_hooks/notes/useNoteForm";
+import { useNoteSaveDebounce } from "@/src/app/_hooks/notes/useNoteSaveDebounce";
+import { useNotesFuncs } from "@/src/app/_hooks/notes/useNotesFuncs";
+import { addNewNoteAction } from "@/src/app/_lib/actions/notes/note-add";
+import { updateNoteAction } from "@/src/app/_lib/actions/notes/note-update";
 import { notes } from "@/src/db/schema/notes";
 import { InferSelectModel } from "drizzle-orm";
 import { useRouter } from "next/navigation";
-import { useActionState, useEffect, useRef, useState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
-import { useDebouncedCallback } from "use-debounce";
 
 interface NewNotesProps {
   noteFromDb: InferSelectModel<typeof notes> | undefined;
 }
 
-const DEFAULT_NOTE_DETAILS = {
-  noteContent: "",
-  tags: "",
-  title: "",
-};
-
 export default function NewNotes({ noteFromDb }: NewNotesProps) {
+  const formRef = useRef<HTMLFormElement | null>(null);
+  const router = useRouter();
+
   const [state, formAction, isSavingNote] = useActionState(
     addNewNoteAction,
     null,
@@ -49,76 +33,25 @@ export default function NewNotes({ noteFromDb }: NewNotesProps) {
     null,
   );
 
-  const { isDiscardNoteModalOpen, isCancelNoteModalOpen } =
-    useAppSelector(getNotes);
-  const dispatch = useAppDispatch();
-  const formRef = useRef<HTMLFormElement | null>(null);
-  const router = useRouter();
+  // normal notes states
+  const {
+    noteFormData,
+    setNoteFormData,
+    theNoteFormsAreEmpty,
+    updateIsDisabled,
+  } = useNoteForm(noteFromDb);
 
-  const noteDetailsFromLocalStorage = localStorage.getItem("noteDetails");
-  const noteDataFromLocalStorage: NoteFormStateType =
-    noteDetailsFromLocalStorage && JSON.parse(noteDetailsFromLocalStorage);
+  // Created this hook to save notes after 2s after user stops typing
+  const noteSaveDebounceFunction = useNoteSaveDebounce(
+    noteFromDb,
+    theNoteFormsAreEmpty,
+    noteFormData,
+  );
 
-  const [noteFormData, setNoteFormData] = useState<NoteFormStateType>({
-    noteContent:
-      noteDataFromLocalStorage?.noteContent || noteFromDb?.content || "",
-    title: noteDataFromLocalStorage?.title || noteFromDb?.title || "",
-    tags: noteDataFromLocalStorage?.tags || noteFromDb?.tags?.join(", ") || "",
-  });
-  const thereIsNoteContent = hasContent(noteFormData?.noteContent);
-  const theNoteFormsAreEmpty =
-    !thereIsNoteContent && !noteFormData?.tags && !noteFormData?.title;
-
-  const noteSaveDebounceFunction = useDebouncedCallback(async () => {
-    if (!noteFromDb) {
-      const response = await addNewNoteActionForButtons(noteFormData);
-
-      if (response?.error) {
-        toast.error(response?.error);
-      }
-
-      if (response?.success) {
-        router.replace(`/notes/${response?.noteAddedToDbId}`, {
-          scroll: false,
-        });
-      }
-    } else {
-      if (theNoteFormsAreEmpty && noteFromDb?.id) {
-        const response = await deleteNoteAction(noteFromDb?.id);
-
-        if (response?.success) {
-          router.replace(`/notes/new`, { scroll: false });
-        }
-
-        if (response?.error) {
-          toast.error(response?.error);
-          return;
-        }
-        return;
-      }
-
-      const response = await updateNoteActionOnButton(
-        noteFromDb?.id,
-        noteFormData?.title,
-        noteFormData?.tags,
-        noteFormData?.noteContent,
-      );
-
-      if (response?.error) {
-        toast.error(response?.error);
-      }
-    }
-  }, 2000);
-
-  // I did this inorder to check if there are any content within the html tag in the content form, because the empty form still returns an html tag.
+  const { onDiscard, onResetForm, onSaveAndExit, onUpdateAndExit } =
+    useNotesFuncs(noteFormData, noteFromDb, setNoteFormData, formRef);
 
   const thisIsANewNote = !noteFromDb || !noteFromDb?.id;
-  console.log(thisIsANewNote, "okaay");
-
-  useEffect(() => {
-    // only store in local storage if it's a new note. Stored notes will come from db.
-    localStorage.setItem("noteDetails", JSON.stringify(noteFormData));
-  }, [noteFormData]);
 
   // newNote
   useEffect(() => {
@@ -149,63 +82,6 @@ export default function NewNotes({ noteFromDb }: NewNotesProps) {
     }
   }, [updateState]);
 
-  useEffect(() => {
-    return () => {
-      localStorage.removeItem("noteDetails");
-    };
-  }, []);
-
-  const updateIsDisabled =
-    noteFromDb?.title === noteFormData?.title &&
-    noteFromDb?.tags?.join(", ") === noteFormData?.tags &&
-    noteFromDb?.content === noteFormData?.noteContent;
-
-  function onResetForm() {
-    const formEl = formRef?.current;
-    if (!formEl) return;
-
-    setNoteFormData(DEFAULT_NOTE_DETAILS);
-    localStorage.removeItem("noteDetails");
-    formEl.reset();
-    dispatch(onToggleCancelModal(false));
-  }
-
-  async function onSaveAndExit() {
-    const response = await addNewNoteActionForButtons(noteFormData);
-
-    if (response?.success) {
-      toast.success(response?.success);
-      router.push("/notes");
-    } else if (response?.error) {
-      toast.success(response?.error);
-    }
-
-    dispatch(onToggleDiscardModal(false));
-  }
-
-  async function onUpdateAndExit() {
-    const response = await updateNoteActionOnButton(
-      noteFromDb?.id,
-      noteFormData?.title,
-      noteFormData?.tags,
-      noteFormData?.noteContent,
-    );
-
-    if (response?.error) {
-      toast?.error(response?.error);
-    } else if (response?.success) {
-      toast?.success(response?.success);
-    }
-
-    dispatch(onToggleDiscardModal(false));
-  }
-
-  function onDiscard() {
-    localStorage.removeItem("noteDetails");
-    dispatch(onToggleDiscardModal(false));
-    router.back();
-  }
-
   return (
     <>
       <form
@@ -228,54 +104,19 @@ export default function NewNotes({ noteFromDb }: NewNotesProps) {
           noteFormData={noteFormData}
           setNoteFormData={setNoteFormData}
           noteSaveDebounceFunction={noteSaveDebounceFunction}
+          lastEdited={noteFromDb?.published_at}
         />
       </form>
 
       {/* modal for go back button */}
-      <Modal
-        modalContent={{
-          isModalOpen: isDiscardNoteModalOpen,
-          ...DISCARD_MODAL_CONTENT,
-        }}
-      >
-        <button
-          type="button"
-          className="btn bg-red-500 text-white"
-          onClick={onDiscard}
-        >
-          Discard
-        </button>
+      <DiscardNoteModal
+        onDiscard={onDiscard}
+        onSaveAndExit={onSaveAndExit}
+        onUpdateAndExit={onUpdateAndExit}
+        thisIsANewNote={thisIsANewNote}
+      />
 
-        <button
-          type="button"
-          className="btn btn-primary text-white"
-          onClick={thisIsANewNote ? onSaveAndExit : onUpdateAndExit}
-        >
-          {thisIsANewNote ? "Save" : "Update"} & Exit
-        </button>
-      </Modal>
-
-      <Modal
-        modalContent={{
-          isModalOpen: isCancelNoteModalOpen,
-          ...DISCARD_MODAL_CONTENT,
-        }}
-      >
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => dispatch(onToggleCancelModal(false))}
-        >
-          cancel
-        </button>
-        <button
-          type="button"
-          className="btn bg-red-500 text-white"
-          onClick={onResetForm}
-        >
-          Discard
-        </button>
-      </Modal>
+      <CancelNoteModal onResetForm={onResetForm} />
     </>
   );
 }

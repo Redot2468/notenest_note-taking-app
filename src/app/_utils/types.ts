@@ -1,3 +1,6 @@
+import { notes } from "@/src/db/schema/notes";
+import { InferSelectModel } from "drizzle-orm";
+
 export interface ChildrenType {
   children: React.ReactNode;
 }
@@ -7,3 +10,5 @@ export type NoteFormStateType = {
   title: string;
   tags: string;
 };
+
+export type NoteFromDbType = InferSelectModel<typeof notes> | undefined;

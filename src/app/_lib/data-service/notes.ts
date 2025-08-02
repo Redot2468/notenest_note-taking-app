@@ -38,7 +38,7 @@ export async function getNoteById(id: string) {
 
     return note?.at(0);
   } catch (error) {
-    if (error instanceof Error) {
+    if (error instanceof DrizzleError) {
       throw new Error(`Something went wrong.
             Cause: ${error?.cause}
             message: ${error?.message}
