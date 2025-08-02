@@ -48,14 +48,16 @@ export async function resetPasswordAction(
     }
 
     try {
-      console.log("okay");
-      const newPasswordSameWithCurrent = await bcrypt.compare(
-        formData?.confirmPassword,
-        tokenOwner?.password,
-      );
+      if (tokenOwner?.password) {
+        console.log("okay");
+        const newPasswordSameWithCurrent = await bcrypt.compare(
+          formData?.confirmPassword,
+          tokenOwner?.password,
+        );
 
-      if (newPasswordSameWithCurrent) {
-        return { error: "Please use another password" };
+        if (newPasswordSameWithCurrent) {
+          return { error: "Please use another password" };
+        }
       }
 
       const hashedPassword = await bcrypt.hash(formData?.confirmPassword, 10);

@@ -1,0 +1,1 @@
+ALTER TABLE "notes" ALTER COLUMN "published_at" SET DEFAULT now();

@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@plugin 'tailwind-scrollbar';
+
 @theme {
   --color-neutral-950: #0e121b;
   --color-neutral-900: #191b25;
@@ -28,6 +30,20 @@
 }
 
 @layer base {
+  * {
+    @apply m-0 box-border p-0;
+  }
+  .tiptap h1 {
+    @apply text-2xl leading-[120%] font-bold tracking-[-0.5px];
+  }
+
+  .tiptap h2 {
+    @apply text-xl leading-[120%] font-bold tracking-[-0.5px];
+  }
+
+  .tiptap h3 {
+    @apply text-base leading-[120%] font-semibold tracking-[-0.3px];
+  }
 }
 
 @layer components {
@@ -169,7 +185,83 @@
   .btn-border-btn:hover {
     @apply bg-neutral-100 text-neutral-600;
   }
+
+  input {
+    @apply disabled:cursor-not-allowed disabled:text-gray-400;
+  }
 }
 
 @layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* tiptap codeblock style starts here */
+
+  .tiptap > :first-child {
+    @apply mt-0;
+  }
+
+  .tiptap pre {
+    @apply mt-[1.5rem] rounded-md bg-neutral-900 px-[1rem] py-[0.75rem] text-white;
+  }
+  .tiptap pre code {
+    @apply bg-transparent p-0 text-[0.8rem] text-inherit;
+  }
+
+  .tiptap .hljs-comment,
+  .tiptap .hljs-quote {
+    @apply text-[#616161];
+  }
+
+  .tiptap .hljs-variable,
+  .tiptap .hljs-template-variable,
+  .tiptap .hljs-attribute,
+  .tiptap .hljs-tag,
+  .tiptap .hljs-regexp,
+  .tiptap .hljs-link,
+  .tiptap .hljs-name,
+  .tiptap .hljs-selector-id,
+  .tiptap .hljs-selector-class {
+    @apply text-[#f98181];
+  }
+
+  .tiptap .hljs-number,
+  .tiptap .hljs-meta,
+  .tiptap .hljs-built_in,
+  .tiptap .hljs-builtin-name,
+  .tiptap .hljs-literal,
+  .tiptap .hljs-type,
+  .tiptap .hljs-params {
+    @apply text-[#fbbc88];
+  }
+
+  .tiptap .hljs-string,
+  .tiptap .hljs-symbol,
+  .tiptap .hljs-bullet {
+    @apply text-[#b9f18d];
+  }
+
+  .tiptap .hljs-title,
+  .tiptap .hljs-section {
+    @apply text-[#faf594];
+  }
+
+  .tiptap .hljs-keyword,
+  .tiptap .hljs-selector-tag {
+    @apply text-[#70cff8];
+  }
+
+  .tiptap .hljs-emphasis {
+    @apply italic;
+  }
+
+  .tiptap .hljs-strong {
+    @apply font-bold;
+  }
 }
