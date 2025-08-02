@@ -7,8 +7,8 @@ import {
 import { sendEmailVerifcationMail } from "@/app/_lib/data-service/mails";
 import { generateEmailVerificationToken } from "@/app/_lib/data-service/tokens";
 import { RegisterSchema } from "@/app/_lib/zod/authschema";
-import { db } from "@/db";
-import { emailVerificationToken, users } from "@/db/schema/auth";
+import { db } from "@/src/db";
+import { emailVerificationToken, users } from "@/src/db/schema/auth";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 import z from "zod";

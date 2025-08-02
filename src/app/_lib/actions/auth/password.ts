@@ -10,8 +10,8 @@ import {
   ForgotPasswordSchema,
   ResetPasswordSchema,
 } from "@/app/_lib/zod/authschema";
-import { db } from "@/db";
-import { resetPasswordToken, users } from "@/db/schema/auth";
+import { db } from "@/src/db";
+import { resetPasswordToken, users } from "@/src/db/schema/auth";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 import z from "zod";
