@@ -19,7 +19,7 @@ interface NewNotesProps {
   noteFromDb: InferSelectModel<typeof notes> | undefined;
 }
 
-export default function NewNotes({ noteFromDb }: NewNotesProps) {
+export default function Notes({ noteFromDb }: NewNotesProps) {
   const formRef = useRef<HTMLFormElement | null>(null);
   const router = useRouter();
 

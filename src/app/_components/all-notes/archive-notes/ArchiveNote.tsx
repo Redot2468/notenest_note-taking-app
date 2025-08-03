@@ -1,8 +1,9 @@
 import Notes from "@/src/app/_components/all-notes/new-note/Notes";
 import { getNoteById } from "@/src/app/_lib/data-service/notes";
 
-async function Note({ noteId }: { noteId: string }) {
+async function ArchiveNote({ noteId }: { noteId: string }) {
   console.log(noteId);
+  //   replace this with archive note data
   const note = await getNoteById(noteId);
 
   return (
@@ -12,4 +13,4 @@ async function Note({ noteId }: { noteId: string }) {
   );
 }
 
-export default Note;
+export default ArchiveNote;

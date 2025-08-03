@@ -1,9 +1,16 @@
 import Note from "@components/all-notes/new-note/Note";
-import { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "New Note",
-};
+export async function generateMetadata(params: Promise<{ noteId: string }>) {
+  const { noteId } = await params;
+
+  if (noteId === "new") {
+    return { title: "New note" };
+  }
+
+  // if noteId !== "new"
+
+  // export title from data
+}
 
 export default async function Page({
   params,
