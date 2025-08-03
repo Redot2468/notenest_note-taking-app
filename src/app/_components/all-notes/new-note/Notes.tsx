@@ -20,6 +20,7 @@ interface NewNotesProps {
 }
 
 export default function Notes({ noteFromDb }: NewNotesProps) {
+  console.log(noteFromDb);
   const formRef = useRef<HTMLFormElement | null>(null);
   const router = useRouter();
 
@@ -27,6 +28,8 @@ export default function Notes({ noteFromDb }: NewNotesProps) {
     addNewNoteAction,
     null,
   );
+
+  console.log(noteFromDb, "oooooooooooooooo");
 
   const [updateState, updateFormAction, isUpdatingNote] = useActionState(
     updateNoteAction,
@@ -90,7 +93,7 @@ export default function Notes({ noteFromDb }: NewNotesProps) {
         autoComplete="on"
         className="new-note-form"
       >
-        <input type="hidden" name="noteId" value={noteFromDb?.id} />
+        <input type="hidden" name="noteId" value={noteFromDb?.id || ""} />
         {/* new tab header */}
         <NoteHeader
           disable={isSavingNote || isUpdatingNote}
