@@ -1,9 +1,21 @@
+import { getNoteById } from "@/src/app/_lib/data-service/notes";
 import Note from "@components/all-notes/new-note/Note";
-import { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "New Note",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ noteId: string }>;
+}) {
+  const { noteId } = await params;
+
+  const note = await getNoteById(noteId);
+
+  if (noteId === "new") {
+    return { title: "New note" };
+  }
+
+  return { title: note?.title };
+}
 
 export default async function Page({
   params,

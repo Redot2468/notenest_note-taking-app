@@ -1,12 +1,33 @@
-import React from "react";
+import ArchiveNote from "@/src/app/_components/all-notes/archive-notes/ArchiveNote";
+import { getArchivedNotesById } from "@/src/app/_lib/data-service/notes";
 
-export function generateMetadata() {}
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ noteId: string }>;
+}) {
+  const { noteId } = await params;
 
-export default function Page() {
+  const archivedNote = await getArchivedNotesById(noteId);
+
+  if (noteId === "new") {
+    return { title: "New note" };
+  }
+
+  return { title: archivedNote?.title };
+}
+
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ noteId: string }>;
+}) {
+  const param = await params;
+
   return (
     <div>
       {/* note content - mobile and desktop */}
-      <div>note-1, (note contents)</div>
+      <ArchiveNote noteId={param?.noteId} />
     </div>
   );
 }

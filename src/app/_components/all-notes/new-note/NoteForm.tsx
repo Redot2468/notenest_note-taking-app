@@ -1,6 +1,7 @@
 "use client";
 
 import Tiptap from "@/src/app/_components/all-notes/new-note/Tiptap";
+import { formatDate } from "@/src/app/_utils/funcs";
 import { NoteFormStateType } from "@/src/app/_utils/types";
 import { Clock, Tag } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
@@ -8,7 +9,7 @@ import { DebouncedState } from "use-debounce";
 
 interface NewNoteFormProps {
   disable: boolean;
-
+  lastEdited: Date | undefined;
   noteFormData: NoteFormStateType;
   setNoteFormData: Dispatch<SetStateAction<NoteFormStateType>>;
   noteSaveDebounceFunction: DebouncedState<() => Promise<void>>;
@@ -16,7 +17,7 @@ interface NewNoteFormProps {
 
 export default function NoteForm({
   disable,
-
+  lastEdited,
   noteFormData,
   setNoteFormData,
   noteSaveDebounceFunction,
@@ -85,8 +86,10 @@ export default function NoteForm({
           <p className="text-preset-6 w-full">
             <span className="hidden text-neutral-700"></span>
 
-            <span className="cursor-default text-neutral-400">
-              Not yet saved
+            <span
+              className={`cursor-default ${lastEdited ? "text-neutral-700" : "text-neutral-400"}`}
+            >
+              {lastEdited ? formatDate(lastEdited) : "Not yet saved"}
             </span>
           </p>
         </div>

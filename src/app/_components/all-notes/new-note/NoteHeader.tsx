@@ -91,6 +91,8 @@ export default function NoteHeader({
     });
   }
 
+  console.log(isNoteArchived, "isNoteArchived");
+
   return (
     <header className="flex w-full items-center justify-between border-b border-neutral-200 pb-4">
       <button
