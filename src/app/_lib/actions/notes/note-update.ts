@@ -41,7 +41,9 @@ export async function updateNoteAction(prevState: unknown, formData: FormData) {
 
     const title = validatedNoteData?.title ?? "Untitled Note";
     const tags = validatedNoteData?.tags
-      ? validatedNoteData?.tags?.split(", ").map((tag) => tag.trim())
+      ? validatedNoteData?.tags
+          ?.split(", ")
+          .map((tag) => tag.toLowerCase().trim())
       : [];
 
     await db
@@ -93,7 +95,9 @@ export async function updateNoteActionOnButton(
       return { error: "You do not have permission to update this note! " };
 
     const title = noteTitle ?? "Untitled Note";
-    const tags = noteTags ? noteTags?.split(", ").map((tag) => tag.trim()) : [];
+    const tags = noteTags
+      ? noteTags?.split(", ").map((tag) => tag.toLowerCase().trim())
+      : [];
 
     await db
       .update(notes)

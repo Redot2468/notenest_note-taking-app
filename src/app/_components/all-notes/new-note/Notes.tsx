@@ -29,8 +29,6 @@ export default function Notes({ noteFromDb }: NewNotesProps) {
     null,
   );
 
-  console.log(noteFromDb, "oooooooooooooooo");
-
   const [updateState, updateFormAction, isUpdatingNote] = useActionState(
     updateNoteAction,
     null,
@@ -43,6 +41,8 @@ export default function Notes({ noteFromDb }: NewNotesProps) {
     theNoteFormsAreEmpty,
     updateIsDisabled,
   } = useNoteForm(noteFromDb);
+
+  console.log(noteFromDb?.tags, noteFormData?.tags, "oooooo");
 
   // Created this hook to save notes after 2s after user stops typing
   const noteSaveDebounceFunction = useNoteSaveDebounce(

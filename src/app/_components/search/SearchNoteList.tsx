@@ -1,15 +1,25 @@
 import NoteCard from "@/src/app/_components/all-notes/NoteCard";
-import { getNotesByTag } from "@/src/app/_lib/data-service/tags";
+import { getNoteBySearch } from "@/src/app/_lib/data-service/search";
 import Link from "next/link";
 
-export default async function TagNotesList({ tag }: { tag: string }) {
+export default async function SearchNoteList({
+  query,
+}: {
+  query: string | undefined;
+}) {
   // replace with tag note list, and use the tag to get the tag
-  const userNotes = await getNotesByTag(tag);
+  const userNotes = await getNoteBySearch(query);
 
-  if (!userNotes.length) {
+  if (query && !userNotes?.length) {
     return (
       <div className="radius-8 text-preset-5 mt-4 w-full border border-neutral-200 bg-neutral-100 p-2 text-neutral-950">
-        <p>You don&apos;t have any notes for the tag ”{tag}”. </p>
+        <p>
+          No notes match your search. Try a different keyword or{" "}
+          <Link href="/notes/new" className="underline">
+            create a new note.
+          </Link>
+          .{" "}
+        </p>
       </div>
     );
   }
