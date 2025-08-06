@@ -29,7 +29,9 @@ export async function addNewNoteAction(prevState: unknown, formData: FormData) {
   const title = validatedNoteData?.title || "Untitled Note";
 
   const tags =
-    validatedNoteData?.tags?.split(",")?.map((tag) => tag.trim()) ?? [];
+    validatedNoteData?.tags
+      ?.split(",")
+      ?.map((tag) => tag.toLowerCase().trim()) ?? [];
 
   console.log(title, tags);
   //   mutation
@@ -76,7 +78,9 @@ export async function addNewNoteActionForButtons(
   const title = validatedNoteData?.title || "Untitled note";
 
   const tags = validatedNoteData?.tags
-    ? validatedNoteData?.tags?.split(", ").map((tag) => tag.trim())
+    ? validatedNoteData?.tags
+        ?.split(", ")
+        .map((tag) => tag.toLowerCase().trim())
     : [];
 
   try {
