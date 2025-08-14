@@ -14,3 +14,5 @@ export const sourceCodePro = Source_Code_Pro({
   subsets: ["latin"],
   display: "swap",
 });
+
+// font face

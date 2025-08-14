@@ -1,11 +1,15 @@
 import type { AdapterAccountType } from "@auth/core/adapters";
 import {
   integer,
+  pgEnum,
   pgTable,
   primaryKey,
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
+
+export const themes = pgEnum("themes", ["light", "dark", "system"]);
+export const fonts = pgEnum("fonts", ["sans", "serif", "mono"]);
 
 export const users = pgTable("user", {
   id: text("id")
@@ -16,6 +20,8 @@ export const users = pgTable("user", {
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
   password: text("password"),
+  theme: themes("theme").default("system"),
+  font: fonts("font").default("sans"),
 });
 
 export const accounts = pgTable(
