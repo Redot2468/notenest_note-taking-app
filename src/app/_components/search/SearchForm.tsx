@@ -33,7 +33,7 @@ export default function SearchForm({ query }: { query: string | undefined }) {
           defaultValue={query}
           autoComplete="noteSearch"
           aria-label="search for note"
-          placeholder="Search for a note..."
+          placeholder="Search note by title, tag or content..."
           className="text-preset-5 w-full text-neutral-950 placeholder:italic focus:outline-none"
           onChange={(e) => onNoteSearch(e.target.value)}
         />
@@ -41,3 +41,5 @@ export default function SearchForm({ query }: { query: string | undefined }) {
     </form>
   );
 }
+
+// start building the settings page

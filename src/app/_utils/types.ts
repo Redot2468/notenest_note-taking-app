@@ -12,3 +12,13 @@ export type NoteFormStateType = {
 };
 
 export type NoteFromDbType = InferSelectModel<typeof notes> | undefined;
+
+export type Theme = "light" | "dark" | "system";
+
+export type Font = "sans" | "serif" | "mono";
+
+export interface Settings {
+  id: string;
+  font: Font;
+  theme: Theme;
+}

@@ -1,5 +1,6 @@
-import { inter } from "@/app/_styles/font";
 import { ChildrenType } from "@/app/_utils/types";
+import BodyProvider from "@/src/app/_components/BodyProvider";
+import Providers from "@/src/app/_lib/react-query/providers";
 import StoreProvider from "@/src/app/_lib/redux/StoreProvider";
 import "@styles/globals.css";
 import { Metadata } from "next";
@@ -17,8 +18,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: ChildrenType) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased`}>
-        <StoreProvider>{children}</StoreProvider>
+      <body className="antialiased">
+        <Providers>
+          <StoreProvider>
+            <BodyProvider>{children}</BodyProvider>
+          </StoreProvider>
+        </Providers>
         <Toaster
           toastOptions={{
             duration: 10000,
