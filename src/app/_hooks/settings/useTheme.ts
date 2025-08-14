@@ -10,11 +10,14 @@ export function useTheme() {
 
   console.log(settings, "settingsss");
 
-  const themeFromLocalStorage = localStorage.getItem("theme");
+  const [currentTheme, setCurrentTheme] = useState("system");
 
-  const [currentTheme, setCurrentTheme] = useState(() =>
-    themeFromLocalStorage ? JSON.parse(themeFromLocalStorage) : "system",
-  );
+  useEffect(() => {
+    const localTheme = localStorage.getItem("theme");
+    if (localTheme) {
+      setCurrentTheme(JSON.parse(localTheme));
+    }
+  }, []);
 
   useEffect(() => {
     const localStorageTheme = localStorage.getItem("theme");
