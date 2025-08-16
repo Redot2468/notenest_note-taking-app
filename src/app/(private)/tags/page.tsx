@@ -17,5 +17,3 @@ export default function Page() {
     </div>
   );
 }
-
-// look for how to get all the tags in the data

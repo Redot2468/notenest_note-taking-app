@@ -1,4 +1,4 @@
-import logoutIcon from "@/public/icons/icon-logout.svg";
+import LogoutButton from "@/src/app/_components/settings/LogoutButton";
 import { SETTINGS } from "@/src/app/_utils/constants";
 import { Metadata } from "next";
 import Image from "next/image";
@@ -34,15 +34,7 @@ export default function Page() {
 
         <div className="h-[1px] bg-neutral-200" />
 
-        <div className="flex items-center gap-2 py-2">
-          <Image
-            src={logoutIcon}
-            alt="color theme icon"
-            quality={100}
-            priority={true}
-          />
-          <p className="text-preset-4 text-neutral-950 capitalize">logout</p>
-        </div>
+        <LogoutButton />
       </div>
     </div>
   );

@@ -4,10 +4,14 @@ import { getUserByEmail } from "@/app/_lib/data-service/auth";
 import { sendEmailVerifcationMail } from "@/app/_lib/data-service/mails";
 import { generateEmailVerificationToken } from "@/app/_lib/data-service/tokens";
 import { LoginSchema } from "@/app/_lib/zod/authschema";
-import { signIn } from "@/src/auth";
+import { signIn, signOut } from "@/src/auth";
 
 import { AuthError } from "next-auth";
 import z from "zod";
+
+export async function signOutAction() {
+  await signOut();
+}
 
 export async function loginAction(prevState: unknown, formData: FormData) {
   const loginCredentials = Object.fromEntries(formData.entries());

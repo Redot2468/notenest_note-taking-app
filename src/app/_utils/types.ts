@@ -1,5 +1,9 @@
+import { ChangePasswordSchema } from "@/src/app/_lib/zod/passwordChange";
 import { notes } from "@/src/db/schema/notes";
 import { InferSelectModel } from "drizzle-orm";
+import z from "zod";
+
+export type PasswordChangeSchemaType = z.infer<typeof ChangePasswordSchema>;
 
 export interface ChildrenType {
   children: React.ReactNode;
