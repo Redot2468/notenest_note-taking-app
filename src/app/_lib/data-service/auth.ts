@@ -37,7 +37,7 @@ export async function getPasswordResetTokenByemail(email: string) {
   }
 }
 
-export async function getUserById(id: string) {
+export const getUserById = cache(async function (id: string) {
   try {
     const user = await db.select().from(users).where(eq(users?.id, id));
 
@@ -47,7 +47,7 @@ export async function getUserById(id: string) {
       throw new Error(`Something went wrong - ${error?.cause}`);
     }
   }
-}
+});
 
 export async function getEmailVerificationTokenByToken(token: string) {
   try {
