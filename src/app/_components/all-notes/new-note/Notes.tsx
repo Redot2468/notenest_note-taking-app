@@ -2,8 +2,10 @@
 
 import CancelNoteModal from "@/src/app/_components/all-notes/new-note/CancelNoteModal";
 import DiscardNoteModal from "@/src/app/_components/all-notes/new-note/DiscardNoteModal";
+import NotesFooter from "@/src/app/_components/all-notes/new-note/editor/NotesFooter";
 import NoteForm from "@/src/app/_components/all-notes/new-note/NoteForm";
 import NoteHeader from "@/src/app/_components/all-notes/new-note/NoteHeader";
+import NotesSidebar from "@/src/app/_components/all-notes/new-note/NotesSidebar";
 import { useNoteForm } from "@/src/app/_hooks/notes/useNoteForm";
 import { useNoteSaveDebounce } from "@/src/app/_hooks/notes/useNoteSaveDebounce";
 import { useNotesFuncs } from "@/src/app/_hooks/notes/useNotesFuncs";
@@ -91,7 +93,7 @@ export default function Notes({ noteFromDb }: NewNotesProps) {
         ref={formRef}
         action={thisIsANewNote ? formAction : updateFormAction}
         autoComplete="on"
-        className="new-note-form"
+        className="new-note-form lg:flex"
       >
         <input type="hidden" name="noteId" value={noteFromDb?.id || ""} />
         {/* new tab header */}
@@ -102,12 +104,26 @@ export default function Notes({ noteFromDb }: NewNotesProps) {
           isNoteArchived={noteFromDb?.isArchived}
         />
 
-        <NoteForm
+        <div className="scrollbar-thin scrollbar-thumb-neutral-400 overflow-y-auto border-r border-neutral-200 lg:h-[80vh] lg:w-[70%]">
+          <NoteForm
+            disable={isSavingNote || isUpdatingNote}
+            noteFormData={noteFormData}
+            setNoteFormData={setNoteFormData}
+            noteSaveDebounceFunction={noteSaveDebounceFunction}
+            lastEdited={noteFromDb?.published_at}
+          />
+          <NotesFooter
+            disable={isSavingNote || isUpdatingNote}
+            noteDetails={noteFormData}
+            updateIsDisabled={updateIsDisabled}
+            isNoteArchived={noteFromDb?.isArchived}
+          />
+        </div>
+        <NotesSidebar
           disable={isSavingNote || isUpdatingNote}
-          noteFormData={noteFormData}
-          setNoteFormData={setNoteFormData}
-          noteSaveDebounceFunction={noteSaveDebounceFunction}
-          lastEdited={noteFromDb?.published_at}
+          noteDetails={noteFormData}
+          updateIsDisabled={updateIsDisabled}
+          isNoteArchived={noteFromDb?.isArchived}
         />
       </form>
 
@@ -123,6 +139,8 @@ export default function Notes({ noteFromDb }: NewNotesProps) {
     </>
   );
 }
+
+// start adding the functionalities for the archive, delete, save, and cancel.
 
 {
   /* <button

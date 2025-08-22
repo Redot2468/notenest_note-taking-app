@@ -48,6 +48,7 @@ export function useNotesFuncs(
     }
 
     dispatch(onToggleDiscardModal(false));
+    router.back();
   }
 
   async function onUpdateAndExit() {
@@ -65,6 +66,7 @@ export function useNotesFuncs(
     }
 
     dispatch(onToggleDiscardModal(false));
+    router.back();
   }
 
   function onDiscard() {

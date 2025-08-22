@@ -8,7 +8,7 @@ async function Note({ noteId }: { noteId: string }) {
   console.log(note, "noteeee");
 
   return (
-    <div className="w-full space-y-3 border-4 border-green-800 px-4 py-5">
+    <div className="w-full space-y-3 px-4 py-5">
       <Notes noteFromDb={note} />
     </div>
   );

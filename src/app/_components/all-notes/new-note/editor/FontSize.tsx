@@ -4,13 +4,17 @@ import { useDropdown } from "@/src/app/_hooks/useDropdown";
 import { Level } from "@tiptap/extension-heading";
 import { Editor } from "@tiptap/react";
 import { Check, Type } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const FONT_SIZE_LEVELS = Array.from({ length: 7 }, (_, i) => i + 10);
 
 export default function FontSize({ editor }: { editor: Editor }) {
-  const [fontSize, setFontSize] = useState<number | null>();
+  const [fontSize, setFontSize] = useState<number | null>(13);
   const { isDropdownOpen, onOpenDropdown } = useDropdown(".font-size-tool");
+
+  useEffect(() => {
+    editor.chain().focus().setFontSize(`${fontSize}px`).run();
+  }, []);
 
   return (
     <div className="font-size-tool z-50 space-y-1">

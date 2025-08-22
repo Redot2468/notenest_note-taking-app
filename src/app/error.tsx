@@ -1,7 +1,5 @@
 "use client";
 
-import React from "react";
-
 interface ErrorProps {
   error: Error & { digest?: string };
   reset: () => void;

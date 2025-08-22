@@ -25,7 +25,7 @@ export default async function Page({
   const param = await params;
 
   return (
-    <div>
+    <div className="">
       {/* note content - mobile and desktop */}
       <ArchiveNote noteId={param?.noteId} />
     </div>

@@ -1,14 +1,23 @@
+"use client";
+
 import { formatDate } from "@/src/app/_utils/funcs";
 import { notes } from "@/src/db/schema/notes";
 import { InferSelectModel } from "drizzle-orm";
+import { useParams } from "next/navigation";
 
 interface NoteCardProps {
   note: InferSelectModel<typeof notes> | undefined;
 }
 
 export default function NoteCard({ note }: NoteCardProps) {
+  const { noteId } = useParams();
+  console.log(noteId);
+  const isNoteSelected = noteId === note?.id;
+
   return (
-    <div className="flex flex-col gap-3 p-2">
+    <div
+      className={`flex flex-col gap-3 p-2 ${isNoteSelected ? "bg-neutral-100" : "bg-white"}`}
+    >
       <p className="text-preset-3 text-neutral-950 capitalize">{note?.title}</p>
 
       <div className="flex flex-wrap gap-1">
