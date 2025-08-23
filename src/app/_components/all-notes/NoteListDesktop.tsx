@@ -21,6 +21,6 @@ export default async function NoteListDesktop() {
   );
 }
 
-//keep working on the archive and notes session, ensure they work perfectly
+// work on the note switching to the next note on the line when a note is being archived
 
 // work on the tag feature.
