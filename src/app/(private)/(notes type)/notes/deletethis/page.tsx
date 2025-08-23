@@ -1,5 +1,3 @@
-import React from "react";
-
 export function generateMetadata() {}
 
 export default function Page() {

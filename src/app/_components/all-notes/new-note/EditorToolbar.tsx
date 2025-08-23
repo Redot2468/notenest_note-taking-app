@@ -24,7 +24,7 @@ export default function EditorToolbar({ editor }: { editor: Editor | null }) {
   }
   return (
     <div className="no-scrollbar flex w-full overflow-x-auto overflow-y-hidden">
-      <div className="flex w-full items-center justify-between gap-4 border border-neutral-200 bg-white px-4 py-1">
+      <div className="flex w-full items-center justify-between gap-4 border border-neutral-200 bg-white px-4 py-1 lg:w-fit">
         <HeadingTool editor={editor} />
         <FontSize editor={editor} />
         {/* bold */}

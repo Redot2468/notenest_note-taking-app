@@ -28,7 +28,7 @@ export default function NoteForm({
   };
 
   return (
-    <div className="mt-3 space-y-3">
+    <div className="space-y-3">
       <div>
         <input
           type="text"
@@ -98,7 +98,7 @@ export default function NoteForm({
       {/* seperator line */}
       <div className="mt-3 h-[1px] bg-neutral-200" />
 
-      <div className="">
+      <div className="lg:pr-4">
         <input type="hidden" name="content" value={noteFormData?.noteContent} />
         <Tiptap
           content={noteFormData?.noteContent}
